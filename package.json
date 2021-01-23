@@ -1,0 +1,17 @@
+{
+  "name": "tax-comp",
+  "version": "1.0.0",
+  "description": "A javascript utility to calculate an individual's income tax liability based on given parameters",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}

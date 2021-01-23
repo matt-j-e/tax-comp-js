@@ -39,11 +39,15 @@ class Comp {
     get availableSavingsAllowance() {
         if (this.totalIncome > this.hrbTop) {
           return 0;
-        } else if (this.totalIncome > (this.availablePA() + this.brbTop)) {
+        } else if (this.totalIncome > (this.availablePA + this.brbTop)) {
           return this.hrSavingsAllowance;
         } else {
           return this.brSavingsAllowance;
         }
+    }
+
+    get earnedIncomePA() {
+        return Math.min(this.availablePA, this.earnedIncome);
     }
 }
 

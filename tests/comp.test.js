@@ -44,9 +44,9 @@ describe("allowances whose values are dependent on income levels", () => {
 
 });
 
-describe("PA calculation", () => {
+describe("availablePA", () => {
 
-    it("reducs the PA to nil where income high enough", () => {
+    it("reduces the PA to nil where income high enough", () => {
         const comp = new Comp(140000,0,0,0,0,0,0,0,0);
         expect(comp.availablePA).toBe(0);
     })
@@ -66,4 +66,45 @@ describe("PA calculation", () => {
         expect(comp.availablePA).toBe(7500);
     });
 
+});
+
+describe("availableSavingsAllowance", () => {
+
+    it("allocates full allowance for BR taxpayer", () => {
+        const comp = new Comp(40000,0,0,0,0,0,0,0,2000);
+        expect(comp.availableSavingsAllowance).toBe(1000);
+    });
+
+    it("allocates full allowance for BR taxpayer - pension on the margin", () => {
+        const comp = new Comp(51000,0,0,0,0,0,0,0,2000);
+        expect(comp.availableSavingsAllowance).toBe(1000);
+    });
+
+    it("allocates reduced allowance for HR taxpayer", () => {
+        const comp = new Comp(80000,0,0,0,0,0,0,0,2000);
+        expect(comp.availableSavingsAllowance).toBe(500);
+    });
+
+    it("allocates zero allowance for AR taxpayer", () => {
+        const comp = new Comp(180000,0,0,0,0,0,0,0,2000);
+        expect(comp.availableSavingsAllowance).toBe(0);
+    });
+
+});
+
+describe("earnedIncomePA", () => {
+    it("allocates no PA where no earned income", () => {
+        const comp = new Comp(0,0,0,0,0,0,1000,40000,0);
+        expect(comp.earnedIncomePA).toBe(0);
+    });
+
+    it("restricts allocated PA to level of earned income where that is lower", () => {
+        const comp = new Comp(5000,0,0,0,0,0,1000,40000,0);
+        expect(comp.earnedIncomePA).toBe(5000);
+    });
+
+    it("allocates all available PA to earned income where that is greater", () => {
+        const comp = new Comp(14000,0,0,0,0,0,1000,40000,0);
+        expect(comp.earnedIncomePA).toBe(12500);
+    });
 });

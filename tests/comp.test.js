@@ -107,4 +107,33 @@ describe("earnedIncomePA", () => {
         const comp = new Comp(14000,0,0,0,0,0,1000,40000,0);
         expect(comp.earnedIncomePA).toBe(12500);
     });
+
+});
+
+describe("savingsIncomePA", () => {
+    it("allocates no PA where no savings income", () => {
+        const comp = new Comp(0,0,0,0,0,0,0,40000,0);
+        expect(comp.savingsIncomePA).toBe(0);
+    });
+
+    it("allocates no PA where all allocated to earned income", () => {
+        const comp = new Comp(13000,0,0,0,0,0,1000,40000,0);
+        expect(comp.savingsIncomePA).toBe(0);
+    });
+
+    it("restricts allocated PA to level of savings income where that is lower", () => {
+        const comp = new Comp(5000,0,0,0,0,0,1000,40000,0);
+        expect(comp.savingsIncomePA).toBe(1000);
+    });
+
+    it("allocates all available PA to savings income where that is greater", () => {
+        const comp = new Comp(0,0,0,0,0,0,20000,40000,0);
+        expect(comp.savingsIncomePA).toBe(12500);
+    });
+
+    it("allocates all available PA to savings income where that is greater (with some earned income)", () => {
+        const comp = new Comp(8000,0,0,0,0,0,20000,40000,0);
+        expect(comp.savingsIncomePA).toBe(4500);
+    });
+
 });

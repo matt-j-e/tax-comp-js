@@ -49,6 +49,10 @@ class Comp {
     get earnedIncomePA() {
         return Math.min(this.availablePA, this.earnedIncome);
     }
+
+    get savingsIncomePA() {
+        return Math.min(this.availablePA - this.earnedIncomePA, this.savingsIncome);
+    }
 }
 
 module.exports = Comp;

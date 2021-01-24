@@ -57,6 +57,18 @@ class Comp {
     get dividendIncomePA() {
         return Math.min(this.availablePA - this.earnedIncomePA - this.savingsIncomePA, this.dividendIncome);
     }
+
+    get taxableEarnedIncome() {
+        return this.earnedIncome - this.earnedIncomePA;
+    }
+
+    get taxableSavingsIncome() {
+        return this.savingsIncome - this.savingsIncomePA;
+    }
+
+    get taxableDividendIncome() {
+        return this.dividendIncome - this.dividendIncomePA;
+    }
 }
 
 module.exports = Comp;

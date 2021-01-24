@@ -362,3 +362,37 @@ describe("the application of the zero rate savings allowance within the BR band"
     });
 
 });
+
+describe("application of the basic rate band to dividend income", () => {
+
+    const comp = new Comp();
+
+    it("determines dividend income that sits in the BR band for BR taxpayer with no earned or savings", () => {
+        comp.dividend = 40000;
+        expect(comp.dividendIncomeBRB).toBe(40000-12500);
+    });
+
+    it("determines dividend income that sits in the BR band for HR+ taxpayer with no earned or savings income", () => {
+        comp.dividend = 60000;
+        expect(comp.dividendIncomeBRB).toBe(37500);
+    });
+
+    it("determines dividend income that sits in the BR band for BR taxpayer with earned and/or savings income using the PA", () => {
+        comp.employment = 20000;
+        comp.dividend = 10000;
+        expect(comp.dividendIncomeBRB).toBe(10000);
+    });
+
+    it("determines dividend income that sits in the BR band for HR+ taxpayer where dividend chunk straddles top of BR band", () => {
+        comp.employment = 40000;
+        comp.dividend = 15000;
+        expect(comp.dividendIncomeBRB).toBe(10000);
+    });
+
+    it("determines that no BR band is available for dividend income where it's all used up by earned and/or savings income", () => {
+        comp.employment = 60000;
+        comp.dividend = 1000;
+        expect(comp.dividendIncomeBRB).toBe(0);
+    });
+
+});

@@ -120,6 +120,10 @@ class Comp {
     get savingsIncomeBRZero() {
         return Math.min(this.savingsIncomeBRB, this.availableSavingsAllowance);
     }
+
+    get dividendIncomeBRB() {
+        return Math.min(this.brbTop - this.earnedIncomeBRB - this.savingsIncomeBRB, this.taxableDividendIncome);
+    }
 }
 
 module.exports = Comp;

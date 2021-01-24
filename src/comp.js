@@ -1,10 +1,19 @@
 class Comp {
-    constructor(employment, pensionState, pensionPrivate, selfEmployment, partnership, rental, interest, dividend, pensionContrib, c4=true) {
+    constructor(employment=0, pensionState=0, pensionPrivate=0, selfEmployment=0, partnership=0, rental=0, interest=0, dividend=0, pensionContrib=0, c4=true) {
+        this.employment = employment;
+        this.pensionState = pensionState;
+        this.pensionPrivate = pensionPrivate;
+        this.selfEmployment = selfEmployment;
+        this.partnership = partnership;
+        this.rental = rental;
+        this.interest = interest;
+        this.dividend = dividend;
+        this.pensionContrib = pensionContrib;
+        this.c4 = c4;
         this.fullPA = 12500; // the standard Personal Allowance before income-related taper
-        this.paTaperThreshold = 100000 + pensionContrib;
-        this.brbTop = 37500 + pensionContrib; // adding gross pension contribs to BRB
+        this.paTaperStartPoint = 100000; // the standard PA taper point before allowing for pension contributions
+        this.brbTopStartPoint = 37500; // the top of the BRB before allowing for pension contributions
         this.hrbTop = 150000; // the top of the HR tax band - the point above which AR kicks in
-        this.hrBand = this.hrbTop - (this.brbTop - pensionContrib); // the actual HR band, adjusted for pension contributions
         this.dividendAllowance = 2000; // dividend nil rate band
         this.brSavingsAllowance = 1000; // savings nil rate band for BR taxpayers
         this.hrSavingsAllowance = 500; // savings nil rate band for HR taxpayers
@@ -18,11 +27,41 @@ class Comp {
         this.c4upl = 50000; // Class 4 NICs Upper Profit Limit
         this.c4sr = 0.09; // Class 4 NIC standard rate on profit between lower and upper limits
         this.c4ur = 0.02; // Class 4 NIC rate on profit above upper limit
-        this.earnedIncome = employment + pensionState + pensionPrivate + selfEmployment + partnership + rental
-        this.savingsIncome = interest;
-        this.dividendIncome = dividend;
-        this.totalIncome = this.earnedIncome + this.savingsIncome + this.dividendIncome
-        this.c4Income = selfEmployment + partnership;
+    }
+
+    get paTaperThreshold() {
+        // adding gross pension contribs to PA taper trigger
+        return this.paTaperStartPoint + this.pensionContrib;
+    }
+
+    get brbTop() {
+        // adding gross pension contribs to BRB
+        return this.brbTopStartPoint + this.pensionContrib;
+    }
+
+    get hrBand() {
+        // the actual HR band, adjusted for pension contributions
+        return this.hrbTop - (this.brbTop - this.pensionContrib);
+    }
+
+    get earnedIncome() {
+        return this.employment + this.pensionState + this.pensionPrivate + this.selfEmployment + this.partnership + this.rental;
+    }
+
+    get savingsIncome() {
+        return this.interest;
+    }
+
+    get dividendIncome() {
+        return this.dividend;
+    }
+
+    get totalIncome() {
+        return this.earnedIncome + this.savingsIncome + this.dividendIncome;
+    }
+
+    get c4Income() {
+        return this.selfEmployment + this.partnership;
     }
 
     get availablePA() {
@@ -68,6 +107,14 @@ class Comp {
 
     get taxableDividendIncome() {
         return this.dividendIncome - this.dividendIncomePA;
+    }
+
+    get earnedIncomeBRB() {
+        return Math.min(this.brbTop, this.taxableEarnedIncome);
+    }
+
+    get savingsIncomeBRB() {
+        return Math.min(this.brbTop - this.earnedIncomeBRB, this.taxableSavingsIncome);
     }
 }
 

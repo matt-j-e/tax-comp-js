@@ -32,7 +32,8 @@ describe("income groupings", () => {
 
 describe("allowances whose values are dependent on income levels", () => {
 
-    const comp = new Comp(0,0,0,0,0,0,0,0,12000);
+    const comp = new Comp();
+    comp.pensionContrib = 12000;
     
     it("includes pension contributions in the personal allowance taper income trigger", () => {
         expect(comp.paTaperThreshold).toBe(100000 + 12000);
@@ -46,23 +47,27 @@ describe("allowances whose values are dependent on income levels", () => {
 
 describe("availablePA", () => {
 
+    const comp = new Comp();
+
     it("reduces the PA to nil where income high enough", () => {
-        const comp = new Comp(140000,0,0,0,0,0,0,0,0);
+        comp.employment = 140000;
         expect(comp.availablePA).toBe(0);
     })
 
     it("calculates full PA where income below threshold", () => {
-        const comp = new Comp(80000,0,0,0,0,0,0,0,0);
+        comp.employment = 80000;
         expect(comp.availablePA).toBe(12500);
     });
 
     it("calculates full PA where income above threshold but pension contributions extend the threshold greater than the excess", () => {
-        const comp = new Comp(110000,0,0,0,0,0,0,0,12000);
+        comp.employment = 110000;
+        comp.pensionContrib = 12000;
         expect(comp.availablePA).toBe(12500);
     });
 
     it("restricts the PA and allows for pension contributions", () => {
-        const comp = new Comp(120000,0,0,0,0,0,0,0,10000);
+        comp.employment = 120000;
+        comp.pensionContrib = 10000;
         expect(comp.availablePA).toBe(7500);
     });
 
@@ -70,170 +75,252 @@ describe("availablePA", () => {
 
 describe("availableSavingsAllowance", () => {
 
+    const comp = new Comp();
+    comp.pensionContrib = 2000;
+
     it("allocates full allowance for BR taxpayer", () => {
-        const comp = new Comp(40000,0,0,0,0,0,0,0,2000);
+        comp.employment = 40000;
         expect(comp.availableSavingsAllowance).toBe(1000);
     });
 
-    it("allocates full allowance for BR taxpayer - pension on the margin", () => {
-        const comp = new Comp(51000,0,0,0,0,0,0,0,2000);
+    it("allocates full allowance for BR taxpayer - pension across the margin", () => {
+        comp.employment = 51000;
         expect(comp.availableSavingsAllowance).toBe(1000);
     });
 
     it("allocates reduced allowance for HR taxpayer", () => {
-        const comp = new Comp(80000,0,0,0,0,0,0,0,2000);
+        comp.employment = 80000;
         expect(comp.availableSavingsAllowance).toBe(500);
     });
 
     it("allocates zero allowance for AR taxpayer", () => {
-        const comp = new Comp(180000,0,0,0,0,0,0,0,2000);
+        comp.employment = 180000;
         expect(comp.availableSavingsAllowance).toBe(0);
     });
 
 });
 
 describe("earnedIncomePA", () => {
+
+    const comp = new Comp();
+
     it("allocates no PA where no earned income", () => {
-        const comp = new Comp(0,0,0,0,0,0,1000,40000,0);
         expect(comp.earnedIncomePA).toBe(0);
     });
 
     it("restricts allocated PA to level of earned income where that is lower", () => {
-        const comp = new Comp(5000,0,0,0,0,0,1000,40000,0);
+        comp.employment = 5000;
         expect(comp.earnedIncomePA).toBe(5000);
     });
 
     it("allocates all available PA to earned income where that is greater", () => {
-        const comp = new Comp(14000,0,0,0,0,0,1000,40000,0);
+        comp.employment = 14000;
         expect(comp.earnedIncomePA).toBe(12500);
     });
 
 });
 
 describe("savingsIncomePA", () => {
+
+    const comp = new Comp();
+
     it("allocates no PA where no savings income", () => {
-        const comp = new Comp(0,0,0,0,0,0,0,40000,0);
         expect(comp.savingsIncomePA).toBe(0);
     });
 
     it("allocates no PA where all allocated to earned income", () => {
-        const comp = new Comp(13000,0,0,0,0,0,1000,40000,0);
+        comp.employment = 13000;
+        comp.interest = 1000;
         expect(comp.savingsIncomePA).toBe(0);
     });
 
     it("restricts allocated PA to level of savings income where that is lower", () => {
-        const comp = new Comp(5000,0,0,0,0,0,1000,40000,0);
+        comp.employment = 5000;
+        comp.interest = 1000;
         expect(comp.savingsIncomePA).toBe(1000);
     });
 
     it("allocates all available PA to savings income where that is greater", () => {
-        const comp = new Comp(0,0,0,0,0,0,20000,40000,0);
+        comp.employment = 0; // override employment in prev. test
+        comp.interest = 20000;
         expect(comp.savingsIncomePA).toBe(12500);
     });
 
     it("allocates all available PA to savings income where that is greater (with some earned income)", () => {
-        const comp = new Comp(8000,0,0,0,0,0,20000,40000,0);
+        comp.employment = 8000;
+        comp.interest = 20000;
         expect(comp.savingsIncomePA).toBe(4500);
     });
 
 });
 
 describe("dividendIncomePA", () => {
+
+    const comp = new Comp();
+
     it("allocates no PA where no dividend income", () => {
-        const comp = new Comp(0,0,0,0,0,0,0,0,0);
         expect(comp.dividendIncomePA).toBe(0);
     });
 
     it("allocates no PA where all allocated to earned income", () => {
-        const comp = new Comp(13000,0,0,0,0,0,0,40000,0);
+        comp.employment = 13000;
+        comp.dividend = 4000;
         expect(comp.dividendIncomePA).toBe(0);
     });
 
     it("allocates no PA where all allocated to savings income", () => {
-        const comp = new Comp(0,0,0,0,0,0,13000,40000,0);
+        comp.employment = 0;
+        comp.interest = 13000;
+        comp.dividend = 4000;
         expect(comp.dividendIncomePA).toBe(0);
     });
 
     it("allocates no PA where all allocated to earned & savings income combined", () => {
-        const comp = new Comp(10000,0,0,0,0,0,2500,40000,0);
+        comp.employment = 10000;
+        comp.interest = 2500;
+        comp.dividend = 4000;
         expect(comp.dividendIncomePA).toBe(0);
     });
 
     it("restricts allocated PA to level of dividend income where that is lower", () => {
-        const comp = new Comp(5000,0,0,0,0,0,500,1000,0);
+        comp.employment = 5000;
+        comp.interest = 500;
+        comp.dividend = 1000;
         expect(comp.dividendIncomePA).toBe(1000);
     });
 
     it("allocates all available PA to dividend income where that is greater", () => {
-        const comp = new Comp(0,0,0,0,0,0,0,40000,0);
+        comp.employment = 0;
+        comp.interest = 0;
+        comp.dividend = 20000;
         expect(comp.dividendIncomePA).toBe(12500);
     });
 
     it("allocates all available PA to dividend income where that is greater (with some earned & savings income)", () => {
-        const comp = new Comp(8000,0,0,0,0,0,2000,40000,0);
+        comp.employment = 8000;
+        comp.interest = 2000;
+        comp.dividend = 20000;
         expect(comp.dividendIncomePA).toBe(12500-8000-2000);
     });
 
 });
 
 describe("taxable income - all three types", () => {
+
+    const comp = new Comp();
+
     it("calculates taxable earned income of 0 when earned income is 0", () => {
-        const comp = new Comp(0,0,0,0,0,0,0,0,0);
         expect(comp.taxableEarnedIncome).toBe(0);
     });
 
     it("calculates taxable earned income of 0 when earned income below PA", () => {
-        const comp = new Comp(6000,0,0,0,0,0,0,0,0);
+        comp.employment = 8000;
         expect(comp.taxableEarnedIncome).toBe(0);
     });
 
     it("calculates taxable earned income when earned income above PA", () => {
-        const comp = new Comp(60000,0,0,0,0,0,0,0,0);
+        comp.employment = 60000;
         expect(comp.taxableEarnedIncome).toBe(60000-12500);
     });
 
     it("calculates taxable earned income when PA fully tapered because of total income", () => {
-        const comp = new Comp(150000,0,0,0,0,0,0,0,0);
+        comp.employment = 150000;
         expect(comp.taxableEarnedIncome).toBe(150000);
     });
 
     it("calculates taxable savings income of 0 when savings income is 0", () => {
-        const comp = new Comp(0,0,0,0,0,0,0,0,0);
+        comp.employment = 0;
         expect(comp.taxableSavingsIncome).toBe(0);
     });
 
     it("calculates taxable savings income of 0 when savings income below available PA", () => {
-        const comp = new Comp(6000,0,0,0,0,0,5000,0,0);
+        comp.employment = 6000;
+        comp.interest = 5000;
         expect(comp.taxableSavingsIncome).toBe(0);
     });
 
     it("calculates taxable savings income when savings income above available PA", () => {
-        const comp = new Comp(6000,0,0,0,0,0,10000,0,0);
+        comp.employment = 6000;
+        comp.interest = 10000;
         expect(comp.taxableSavingsIncome).toBe(10000-(12500-6000));
     });
 
     it("calculates taxable savings income when PA fully tapered because of total income" ,() => {
-        const comp = new Comp(0,0,0,0,0,0,150000,0,0);
+        comp.employment = 0;
+        comp.interest = 150000;
         expect(comp.taxableSavingsIncome).toBe(150000);
     });
 
     it("calculates taxable dividend income of 0 when dividend income is 0", () => {
-        const comp = new Comp(0,0,0,0,0,0,0,0,0);
+        comp.employment = 0;
+        comp.interest = 0;
         expect(comp.taxableDividendIncome).toBe(0);
     });
 
     it("calculates taxable dividend income of 0 when dividend income below available PA", () => {
-        const comp = new Comp(6000,0,0,0,0,0,0,5000,0);
+        comp.employment = 6000;
+        comp.dividend = 5000;
         expect(comp.taxableDividendIncome).toBe(0);
     });
 
     it("calculates taxable dividend income when dividend income above available PA", () => {
-        const comp = new Comp(6000,0,0,0,0,0,0,10000,0);
+        comp.employment = 6000;
+        comp.dividend = 10000;
         expect(comp.taxableDividendIncome).toBe(10000-(12500-6000));
     });
 
     it("calculates taxable dividend income when PA fully tapered because of total income", () => {
-        const comp = new Comp(0,0,0,0,0,0,0,150000,0);
+        comp.employment = 0;
+        comp.dividend = 150000;
         expect(comp.taxableDividendIncome).toBe(150000);
     });
+});
+
+describe("application of the basic rate band to earned income", () => {
+
+    const comp = new Comp();
+
+    it("determines the chunk of earned income that sits in the BR band for BR taxpayer", () => {
+        comp.employment = 40000;
+        expect(comp.earnedIncomeBRB).toBe(40000-12500);
+    });
+
+    it("determines the chunk of earned income that sits in the BR band for HR+ taxpayer", () => {
+        comp.employment = 80000;
+        expect(comp.earnedIncomeBRB).toBe(37500);
+    });
+});
+
+describe("application of the basic rate band to savings income", () => {
+
+    const comp = new Comp();
+
+    it("determines savings income that sits in the BR band for BR taxpayer with no earned income", () => {
+        comp.interest = 40000;
+        expect(comp.savingsIncomeBRB).toBe(40000-12500);
+    });
+
+    it("determines savings income that sits in the BR band for HR+ taxpayer with no earned income", () => {
+        comp.interest = 60000;
+        expect(comp.savingsIncomeBRB).toBe(37500);
+    });
+
+    it("determines savings income that sits in the BR band for BR taxpayer with earned income using the PA", () => {
+        comp.employment = 20000
+        comp.interest = 10000;
+        expect(comp.savingsIncomeBRB).toBe(10000);
+    });
+
+    it("determines savings income that sits in the BR band for HR+ taxpayer where savings chunk straddles top of BR band", () => {
+        comp.employment = 40000;
+        comp.interest = 15000;
+        expect(comp.savingsIncomeBRB).toBe(10000);
+    });
+
+    it("determines that no BR band is available for savings income where it's all used up by earned income", () => {
+        comp.employment = 60000;
+        comp.interest = 1000;
+        expect(comp.savingsIncomeBRB).toBe(0);
+    });
+
 });

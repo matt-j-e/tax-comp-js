@@ -116,6 +116,10 @@ class Comp {
     get savingsIncomeBRB() {
         return Math.min(this.brbTop - this.earnedIncomeBRB, this.taxableSavingsIncome);
     }
+
+    get savingsIncomeBRZero() {
+        return Math.min(this.savingsIncomeBRB, this.availableSavingsAllowance);
+    }
 }
 
 module.exports = Comp;

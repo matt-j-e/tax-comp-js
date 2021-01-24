@@ -306,7 +306,7 @@ describe("application of the basic rate band to savings income", () => {
     });
 
     it("determines savings income that sits in the BR band for BR taxpayer with earned income using the PA", () => {
-        comp.employment = 20000
+        comp.employment = 20000;
         comp.interest = 10000;
         expect(comp.savingsIncomeBRB).toBe(10000);
     });
@@ -321,6 +321,44 @@ describe("application of the basic rate band to savings income", () => {
         comp.employment = 60000;
         comp.interest = 1000;
         expect(comp.savingsIncomeBRB).toBe(0);
+    });
+
+});
+
+describe("the application of the zero rate savings allowance within the BR band" ,() => {
+
+    const comp = new Comp();
+
+    it("restricts the savings allowance to BR savings income where that is less than the available savings allowance", () => {
+        comp.employment = 20000;
+        comp.interest = 200;
+        expect(comp.savingsIncomeBRZero).toBe(200);
+    });
+
+    it("is nil when BR band all used by earned income", () => {
+        comp.employment = 60000;
+        comp.interest = 1000;
+        expect(comp.savingsIncomeBRZero).toBe(0);
+    });
+
+    it("applies full available savings allowance where it is less than BR band savings income", () => {
+        comp.employment = 20000;
+        comp.interest = 4000;
+        expect(comp.savingsIncomeBRZero).toBe(1000);
+    });
+
+    it("applies the reduced rate where dividend income causes HR tax liability", () => {
+        comp.employment = 20000;
+        comp.interest = 4000;
+        comp.dividend = 40000;
+        expect(comp.savingsIncomeBRZero).toBe(500);
+    });
+
+    it("is nil when dividend income causes AR tax liability", () => {
+        comp.employment = 20000;
+        comp.interest = 4000;
+        comp.dividend = 140000;
+        expect(comp.savingsIncomeBRZero).toBe(0);
     });
 
 });

@@ -137,3 +137,41 @@ describe("savingsIncomePA", () => {
     });
 
 });
+
+describe("dividendIncomePA", () => {
+    it("allocates no PA where no dividend income", () => {
+        const comp = new Comp(0,0,0,0,0,0,0,0,0);
+        expect(comp.dividendIncomePA).toBe(0);
+    });
+
+    it("allocates no PA where all allocated to earned income", () => {
+        const comp = new Comp(13000,0,0,0,0,0,0,40000,0);
+        expect(comp.dividendIncomePA).toBe(0);
+    });
+
+    it("allocates no PA where all allocated to savings income", () => {
+        const comp = new Comp(0,0,0,0,0,0,13000,40000,0);
+        expect(comp.dividendIncomePA).toBe(0);
+    });
+
+    it("allocates no PA where all allocated to earned & savings income combined", () => {
+        const comp = new Comp(10000,0,0,0,0,0,2500,40000,0);
+        expect(comp.dividendIncomePA).toBe(0);
+    });
+
+    it("restricts allocated PA to level of dividend income where that is lower", () => {
+        const comp = new Comp(5000,0,0,0,0,0,500,1000,0);
+        expect(comp.dividendIncomePA).toBe(1000);
+    });
+
+    it("allocates all available PA to dividend income where that is greater", () => {
+        const comp = new Comp(0,0,0,0,0,0,0,40000,0);
+        expect(comp.dividendIncomePA).toBe(12500);
+    });
+
+    it("allocates all available PA to dividend income where that is greater (with some earned & savings income)", () => {
+        const comp = new Comp(8000,0,0,0,0,0,2000,40000,0);
+        expect(comp.dividendIncomePA).toBe(12500-8000-2000);
+    });
+
+});

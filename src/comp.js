@@ -124,6 +124,110 @@ class Comp {
     get dividendIncomeBRB() {
         return Math.min(this.brbTop - this.earnedIncomeBRB - this.savingsIncomeBRB, this.taxableDividendIncome);
     }
+
+    get dividendIncomeBRZero() {
+        return Math.min(this.dividendIncomeBRB, this.dividendAllowance);
+    }
+
+    get earnedIncomeBRTax() {
+        return this.earnedIncomeBRB * this.br;
+    }
+
+    get savingsIncomeBRTax() {
+        return (this.savingsIncomeBRB - this.savingsIncomeBRZero) * this.br;
+    }
+      
+    get dividendIncomeBRTax() {
+        return (this.dividendIncomeBRB - this.dividendIncomeBRZero) * this.brdiv;
+    }
+
+    get earnedIncomeHRB() {
+        return Math.min(this.hrBand, this.taxableEarnedIncome - this.earnedIncomeBRB);
+    }
+      
+    get savingsIncomeHRB() {
+        return Math.min(this.hrBand - this.earnedIncomeHRB, this.taxableSavingsIncome - this.savingsIncomeBRB);
+    }
+      
+    get savingsIncomeHRZero() {
+        return Math.min(this.savingsIncomeHRB, this.availableSavingsAllowance - this.savingsIncomeBRZero);
+    }
+      
+    get dividendIncomeHRB() {
+        return Math.min(this.hrBand - this.earnedIncomeHRB - this.savingsIncomeHRB, this.taxableDividendIncome - this.dividendIncomeBRB);
+    }
+      
+    get dividendIncomeHRZero() {
+        return Math.min(this.dividendIncomeHRB, this.dividendAllowance - this.dividendIncomeBRZero);
+    }
+
+    get earnedIncomeHRTax() {
+        return this.earnedIncomeHRB * this.hr;
+    }
+      
+    get savingsIncomeHRTax() {
+        return (this.savingsIncomeHRB - this.savingsIncomeHRZero) * this.hr;
+    }
+      
+    get dividendIncomeHRTax() {
+        return (this.dividendIncomeHRB - this.dividendIncomeHRZero) * this.hrdiv;
+    }
+
+    get earnedIncomeARB() {
+        return this.taxableEarnedIncome - this.earnedIncomeHRB - this.earnedIncomeBRB;
+    }
+      
+    get savingsIncomeARB() {
+        return this.taxableSavingsIncome - this.savingsIncomeHRB - this.savingsIncomeBRB;
+    }
+      
+    get dividendIncomeARB() {
+        return this.taxableDividendIncome - this.dividendIncomeHRB - this.dividendIncomeBRB;
+    }
+
+    get dividendIncomeARZero() {
+        return Math.min(this.dividendIncomeARB, this.dividendAllowance - this.dividendIncomeHRZero - this.dividendIncomeBRZero);
+    }
+      
+    get earnedIncomeARTax() {
+        return this.earnedIncomeARB * this.ar;
+    }
+      
+    get savingsIncomeARTax() {
+        return this.savingsIncomeARB * this.ar;
+    }
+      
+    get dividendIncomeARTax() {
+        return (this.dividendIncomeARB - this.dividendIncomeARZero) * this.ardiv;
+    }
+
+    get allARTax() {
+        return this.earnedIncomeARTax + this.savingsIncomeARTax + this.dividendIncomeARTax;
+    }
+      
+    get allHRTax() {
+        return this.earnedIncomeHRTax + this.savingsIncomeHRTax + this.dividendIncomeHRTax;
+    }
+      
+    get allBRTax() {
+        return this.earnedIncomeBRTax + this.savingsIncomeBRTax + this.dividendIncomeBRTax;
+    }
+      
+    get allTax() {
+        return this.allARTax + this.allHRTax + this.allBRTax;
+    }
+
+    get c4liability() {
+        if (this.c4 === false) return 0;
+        if (this.c4Income <= this.c4lpl) return 0;
+        const sr_earnings = Math.min(this.c4upl - this.c4lpl, this.c4Income - this.c4lpl);
+        const ur_earnings = Math.max(this.c4Income - this.c4upl, 0);
+        return (sr_earnings * this.c4sr) + (ur_earnings * this.c4ur);
+    }
+    
+    get allTaxNI() {
+        return this.allTax + this.c4liability;
+    }
 }
 
 module.exports = Comp;

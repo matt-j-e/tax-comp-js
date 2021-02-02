@@ -396,3 +396,57 @@ describe("application of the basic rate band to dividend income", () => {
     });
 
 });
+
+describe("the application of the zero rate dividend allowance within the BR band" ,() => {
+
+    const comp = new Comp();
+
+    it("restricts the dividend allowance to BR dividend income where that is less than the available dividend allowance", () => {
+        comp.employment = 20000;
+        comp.dividend = 1000;
+        expect(comp.dividendIncomeBRZero).toBe(1000);
+    });
+
+    it("is nil when BR band all used by earned and/or savings income", () => {
+        comp.employment = 60000;
+        comp.dividend = 1000;
+        expect(comp.dividendIncomeBRZero).toBe(0);
+    });
+
+    it("applies full available dividend allowance where it is less than BR band dividend income", () => {
+        comp.employment = 20000;
+        comp.dividend = 4000;
+        expect(comp.dividendIncomeBRZero).toBe(2000);
+    });
+
+});
+
+describe("basic rate tax liabilities", () => {
+
+    const comp = new Comp();
+
+    it("calculates BR tax of nil on earnings within PA", () => {
+        comp.employment = 8000;
+        expect(comp.earnedIncomeBRTax).toBe(0);
+    });
+
+    it("calculates BR tax on earned income for an overall BR taxpayer", () => {
+        comp.employment = 40000;
+        expect(comp.earnedIncomeBRTax).toBe(5500);
+    });
+
+    it("calculates BR tax on earned income for an overall HR taxpayer", () => {
+        comp.employment = 40000;
+        comp.interest = 10000;
+        comp.dividends = 40000;
+        expect(comp.earnedIncomeBRTax).toBe(5500);
+    });
+
+    it("calculates BR tax on earned income for a taxpayer with HR earnings income", () => {
+        comp.employment = 60000;
+        comp.interest = 10000;
+        comp.dividends = 40000;
+        expect(comp.earnedIncomeBRTax).toBe(7500);
+    });
+    
+});

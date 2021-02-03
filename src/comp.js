@@ -1,32 +1,33 @@
 class Comp {
-    constructor(employment=0, pensionState=0, pensionPrivate=0, selfEmployment=0, partnership=0, rental=0, interest=0, dividend=0, pensionContrib=0, c4=true) {
-        this.employment = employment;
-        this.pensionState = pensionState;
-        this.pensionPrivate = pensionPrivate;
-        this.selfEmployment = selfEmployment;
-        this.partnership = partnership;
-        this.rental = rental;
-        this.interest = interest;
-        this.dividend = dividend;
-        this.pensionContrib = pensionContrib;
-        this.c4 = c4;
-        this.fullPA = 12500; // the standard Personal Allowance before income-related taper
-        this.paTaperStartPoint = 100000; // the standard PA taper point before allowing for pension contributions
-        this.brbTopStartPoint = 37500; // the top of the BRB before allowing for pension contributions
-        this.hrbTop = 150000; // the top of the HR tax band - the point above which AR kicks in
-        this.dividendAllowance = 2000; // dividend nil rate band
-        this.brSavingsAllowance = 1000; // savings nil rate band for BR taxpayers
-        this.hrSavingsAllowance = 500; // savings nil rate band for HR taxpayers
-        this.br = 0.2; // basic rate of tax
-        this.hr = 0.4; // higher rate of tax
-        this.ar = 0.45; // additional rate of tax
-        this.brdiv = 0.075; // basic rate of tax on dividends
-        this.hrdiv = 0.325; // higher rate of tax on dividends
-        this.ardiv = 0.381; // additional rate of tax on dividends
-        this.c4lpl = 8632; // Class 4 NICs Lower Profit Limit
-        this.c4upl = 50000; // Class 4 NICs Upper Profit Limit
-        this.c4sr = 0.09; // Class 4 NIC standard rate on profit between lower and upper limits
-        this.c4ur = 0.02; // Class 4 NIC rate on profit above upper limit
+    constructor(profile, rates) {
+        this.employment = profile.employment;
+        this.pensionState = profile.pensionState;
+        this.pensionPrivate = profile.pensionPrivate;
+        this.selfEmployment = profile.selfEmployment;
+        this.partnership = profile.partnership;
+        this.rental = profile.rental;
+        this.interest = profile.interest;
+        this.dividend = profile.dividend;
+        this.pensionContrib = profile.pensionContrib;
+        this.c4 = profile.c4;
+
+        this.fullPA = rates.fullPA; // the standard Personal Allowance before income-related taper
+        this.paTaperStartPoint = rates.paTaperStartPoint; // the standard PA taper point before allowing for pension contributions
+        this.brbTopStartPoint = rates.brbTopStartPoint; // the top of the BRB before allowing for pension contributions
+        this.hrbTop = rates.hrbTop; // the top of the HR tax band - the point above which AR kicks in
+        this.dividendAllowance = rates.dividendAllowance; // dividend nil rate band
+        this.brSavingsAllowance = rates.brSavingsAllowance; // savings nil rate band for BR taxpayers
+        this.hrSavingsAllowance = rates.hrSavingsAllowance; // savings nil rate band for HR taxpayers
+        this.br = rates.br; // basic rate of tax
+        this.hr = rates.hr; // higher rate of tax
+        this.ar = rates.ar; // additional rate of tax
+        this.brdiv = rates.brdiv; // basic rate of tax on dividends
+        this.hrdiv = rates.hrdiv; // higher rate of tax on dividends
+        this.ardiv = rates.ardiv; // additional rate of tax on dividends
+        this.c4lpl = rates.c4lpl; // Class 4 NICs Lower Profit Limit
+        this.c4upl = rates.c4upl; // Class 4 NICs Upper Profit Limit
+        this.c4sr = rates.c4sr; // Class 4 NIC standard rate on profit between lower and upper limits
+        this.c4ur = rates.c4ur; // Class 4 NIC rate on profit above upper limit
     }
 
     get paTaperThreshold() {
@@ -230,4 +231,8 @@ class Comp {
     }
 }
 
-module.exports = Comp;
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Comp;
+} else {
+    window.Comp = Comp;
+}

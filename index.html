@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax comp project</title>
+</head>
+<body>
+<script src="src/comp.js"></script>
+<script src="src/profile.js"></script>
+<script src="src/rates.js"></script>
+<script>
+    // console.log(Rates[2020].fullPA);
+    const rf = new Profile(59999, 0, 0, 0, 218533, 25840, 572, 62500, 14620);
+    const sf2019 = new Profile(30924, 0,0,0,0,64226,1105,1229);
+    const comp = new Comp(sf2019, Rates[2021]);
+    console.log(`Total taxable income: £${comp.totalIncome - comp.availablePA}`);
+    console.log(`Taxable earned income: £${comp.taxableEarnedIncome}`);
+    console.log(`Earned income basic rate tax: £${comp.earnedIncomeBRTax}`);
+    console.log(`Earned income higher rate tax: £${comp.earnedIncomeHRTax}`);
+    console.log(`Earned income additional rate tax: £${comp.earnedIncomeARTax}`);
+    console.log(`Taxable savings income: £${comp.taxableSavingsIncome}`);
+    console.log(`Savings income basic rate tax: £${comp.savingsIncomeBRTax}`);
+    console.log(`Savings income higher rate tax: £${comp.savingsIncomeHRTax}`);
+    console.log(`Savings income additional rate tax: £${comp.savingsIncomeARTax}`);
+    console.log(`Taxable dividend income: £${comp.taxableDividendIncome}`);
+    console.log(`Dividend income basic rate tax: £${comp.dividendIncomeBRTax}`);
+    console.log(`Dividend income higher rate tax: £${comp.dividendIncomeHRTax}`);
+    console.log(`Dividend income additional rate tax: £${comp.dividendIncomeARTax}`);
+    console.log(`Class 4 NIC: £${comp.c4liability}`);
+    console.log(`Total tax & NI = £${comp.allTaxNI}`);
+</script>
+</body>
+</html>

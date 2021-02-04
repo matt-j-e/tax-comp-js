@@ -36,53 +36,10 @@ class Controller {
             if(input.checked) c4 = input.value === "Yes";
         });
 
-        // console.log(taxYear);
-        // console.log(employment);
-        // console.log(pensionState);
-        // console.log(pensionPrivate);
-        // console.log(selfEmployment);
-        // console.log(partnership);
-        // console.log(rental);
-        // console.log(interest);
-        // console.log(dividend);
-        // console.log(pensionContrib);
-        // console.log(c4);
-
         const profile = new Profile(employment, pensionState, pensionPrivate, selfEmployment, partnership, rental, interest, dividend, pensionContrib, c4);
         const comp = new Comp(profile, Rates[taxYear]);
         this.comp = comp;
         this.taxYear = taxYear;
-        console.log(comp);
-
-        console.log(`Total taxable income: £${comp.totalIncome - comp.availablePA}`);
-        console.log(`Taxable earned income: £${comp.taxableEarnedIncome}`);
-        console.log(`Earned income basic rate tax: £${comp.earnedIncomeBRTax}`);
-        console.log(`Earned income higher rate tax: £${comp.earnedIncomeHRTax}`);
-        console.log(`Earned income additional rate tax: £${comp.earnedIncomeARTax}`);
-        console.log(`Taxable savings income: £${comp.taxableSavingsIncome}`);
-        console.log(`Savings income basic rate tax: £${comp.savingsIncomeBRTax}`);
-        console.log(`Savings income higher rate tax: £${comp.savingsIncomeHRTax}`);
-        console.log(`Savings income additional rate tax: £${comp.savingsIncomeARTax}`);
-        console.log(`Taxable dividend income: £${comp.taxableDividendIncome}`);
-        console.log(`Dividend income basic rate tax: £${comp.dividendIncomeBRTax}`);
-        console.log(`Dividend income higher rate tax: £${comp.dividendIncomeHRTax}`);
-        console.log(`Dividend income additional rate tax: £${comp.dividendIncomeARTax}`);
-        console.log(`Class 4 NIC: £${comp.c4liability}`);
-        console.log(`Total tax & NI = £${comp.allTaxNI}`);
-
-        // console.log(this.taxYearInput.value);
-        // console.log(this.employmentInput.value || 0);
-        // console.log(this.pensionStateInput.value || 0);
-        // console.log(this.pensionPrivateInput.value || 0);
-        // console.log(this.selfEmploymentInput.value || 0);
-        // console.log(this.partnershipInput.value || 0);
-        // console.log(this.rentalInput.value || 0);
-        // console.log(this.interestInput.value || 0);
-        // console.log(this.dividendInput.value || 0);
-        // console.log(this.pensionContribInput.value || 0);
-        // this.c4Inputs.forEach((input) => {
-        //     if(input.checked) console.log(input.value);
-        // });
         
     }
 

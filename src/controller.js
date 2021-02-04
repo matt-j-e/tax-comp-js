@@ -4,6 +4,13 @@ class Controller {
             this.collectData(e);
             this.renderComp();
         });
+
+        document.querySelectorAll("input").forEach((input) => {
+            input.addEventListener("blur", (e) => {
+                this.collectData(e);
+                this.renderComp();
+            })
+        })
     }
 
     collectData(event) {

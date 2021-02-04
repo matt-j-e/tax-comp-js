@@ -1,0 +1,90 @@
+html {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+#container {
+    min-height: 90vh;
+    padding: 5vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: top;
+}
+
+#collection {
+    padding: 2rem;
+    background: palegoldenrod;
+}
+
+#collection h2 {
+    text-align: center;
+}
+
+#income-form > div {
+    padding: 0.3rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#income-form label {
+    font-weight: 600;
+    padding: 0 1rem 0 0;
+}
+
+#income-form input {
+    text-align: right;
+}
+
+#income-form input[name="name"] {
+    text-align: left;
+}
+
+#income-form input[type="submit"] {
+    text-align: center;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.3rem;
+}
+
+#computation {
+    padding: 2rem;
+    flex-basis: 40%;
+    background: palegoldenrod;
+}
+
+#computation h2 {
+    text-align: center;
+}
+
+#computation h3 {
+    margin-bottom: 0;
+}
+
+table {
+    font-family: 'Roboto Mono', monospace;
+    width: 100%;
+    padding: 1rem;
+    background-color: hsl(55, 67%, 70%);
+    line-height: 1.4;
+}
+
+th {
+    text-align: left;
+}
+
+td {
+    text-align: right;
+}
+
+.rhs {
+    width: 20%;
+}
+
+.mid {
+    width: 15%;
+}
+
+#totals {
+    line-height: 1.8;
+}

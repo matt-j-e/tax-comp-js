@@ -1,34 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tax comp project</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet"> 
+  <title>Tax comp project</title>
 </head>
 <body>
+<div id="container">
+  <section id="collection">
+    <h2>Income details</h2>
+    <form action="" id="income-form">
+      <div>
+        <label for="taxYear" class="sr-text">Tax Year</label>
+        <select name="taxYear" id="taxYear">
+          <option value="2021">Year ended 5th April 2021</option>
+          <option value="2020">Year ended 5th April 2020</option>
+          <option value="2019">Year ended 5th April 2019</option>
+        </select>
+      </div>
+      <div>
+        <label for="name" class="sr-text">Name</label>
+        <input type="text" id="name" name="name"">
+      </div>
+      <div>
+        <label for="employment" class="sr-text">Employment</label>
+        <input type="text" id="employment" name="employment">
+      </div>
+      <div>
+        <label for="pensionState" class="sr-text">State Pension</label>
+        <input type="text" id="pensionState" name="pensionState"">
+      </div>
+      <div>
+        <label for="pensionPrivate" class="sr-text">Private Pension</label>
+        <input type="text" id="pensionPrivate" name="pensionPrivate"">
+      </div>
+      <div>
+        <label for="selfEmployment" class="sr-text">Self Employment</label>
+        <input type="text" id="selfEmployment" name="selfEmployment"">
+      </div>
+      <div>
+        <label for="partnership" class="sr-text">Partnership</label>
+        <input type="text" id="partnership" name="partnership">
+      </div>
+      <div>
+        <label for="rental" class="sr-text">Rental</label>
+        <input type="text" id="rental" name="rental">
+      </div>
+      <div>
+        <label for="interest" class="sr-text">Interest</label>
+        <input type="text" id="interest" name="interest">
+      </div>
+      <div>
+        <label for="dividends" class="sr-text">Dividends</label>
+        <input type="text" id="dividends" name="dividends">
+      </div>
+      <div>
+        <label for="pensionContrib" class="sr-text">Pension Contributions</label>
+        <input type="text" id="pensionContrib" name="pensionContrib">
+      </div>
+      <div>
+        <label for="c4" class="sr-text">Liable for Class 4?</label>
+        <div>
+          <label for="c4Yes">Yes</label>
+          <input type="radio" id="c4Yes" name="c4" value="Yes" checked>
+          <label for="c4No">No</label>
+          <input type="radio" id="c4No" name="c4" value="No">
+        </div>
+      </div>
+      <div><input type="submit" name="submit" id="submit" value="Calculate Tax"></div>
+    </form>
+  </section>
+  <section id="computation">
+    <h2>Tax computation for the year ended 5th April <span id="comp-taxYear"></span></h2>
+    <table id="income">
+      <tr><th>Employment</th><td id="comp-employment"></td></tr>
+      <tr><th>Pension</th><td id="comp-pension"></td></tr>
+      <tr><th>Self Employment</th><td id="comp-selfEmployment"></td></tr>
+      <tr><th>Partnership</th><td id="comp-partnership"></td></tr>
+      <tr><th>Rental</th><td id="comp-rental"></td></tr>
+      <tr><th>Interest</th><td id="comp-interest"></td></tr>
+      <tr><th>Dividends</th><td id="comp-dividend"></td></tr>
+      <tr><th>TOTAL INCOME</th><td id="comp-totalIncome"></td></tr>
+      <tr><th>Personal Allowance</th><td id="comp-personalAllowance"></td></tr>
+      <tr><th>TAXABLE INCOME</th><td id="comp-taxableIncome"></td></tr>
+    </table>
+    <h3>Earned income tax</h3>
+    <table>
+      <tr><td id="comp-earnedIncomeBRB"></td><td class="mid" id="comp-earned-br"></td><td class="rhs" id="comp-earnedIncomeBRTax"></td></tr>
+      <tr><td id="comp-earnedIncomeHRB"></td><td class="mid" id="comp-earned-hr"></td><td class="rhs" id="comp-earnedIncomeHRTax"></td></tr>
+      <tr><td id="comp-earnedIncomeARB"></td><td class="mid" id="comp-earned-ar"></td><td class="rhs" id="comp-earnedIncomeARTax"></td></tr>
+    </table>
+    <h3>Savings income tax</h3>
+    <table>
+      <tr><td id="comp-savingsIncomeBRB"></td><td class="mid" id="comp-savings-br"></td><td class="rhs" id="comp-savingsIncomeBRTax"></td></tr>
+      <tr><td id="comp-savingsIncomeHRB"></td><td class="mid" id="comp-savings-hr"></td><td class="rhs" id="comp-savingsIncomeHRTax"></td></tr>
+      <tr><td id="comp-savingsIncomeARB"></td><td class="mid" id="comp-savings-ar"></td><td class="rhs" id="comp-savingsIncomeARTax"></td></tr>
+    </table>
+    <h3>Dividend income tax</h3>
+    <table>
+      <tr><td id="comp-dividendIncomeBRB"></td><td class="mid" id="comp-dividend-br"></td><td class="rhs" id="comp-dividendIncomeBRTax"></td></tr>
+      <tr><td id="comp-dividendIncomeHRB"></td><td class="mid" id="comp-dividend-hr"></td><td class="rhs" id="comp-dividendIncomeHRTax"></td></tr>
+      <tr><td id="comp-dividendIncomeARB"></td><td class="mid" id="comp-dividend-ar"></td><td class="rhs" id="comp-dividendIncomeARTax"></td></tr>
+    </table>
+    <h3>&nbsp;</h3>
+    <table id="totals">
+      <tr><th>TOTAL TAX</th><td id="comp-allTax"></td></tr>
+      <tr><th>Class 4 National Insurance</th><td id="comp-c4liability"></td></tr>
+      <tr><th>TOTAL TAX & NATIONAL INSURANCE</th><td id="comp-allTaxNI"></td></tr>
+    </table>
+
+  </section>
+</div>
+
+
 <script src="src/comp.js"></script>
 <script src="src/profile.js"></script>
 <script src="src/rates.js"></script>
+<script src="src/controller.js"></script>
 <script>
-    // console.log(Rates[2020].fullPA);
-    const rf = new Profile(59999, 0, 0, 0, 218533, 25840, 572, 62500, 14620);
-    const sf2019 = new Profile(30924, 0,0,0,0,64226,1105,1229);
-    const comp = new Comp(sf2019, Rates[2021]);
-    console.log(`Total taxable income: £${comp.totalIncome - comp.availablePA}`);
-    console.log(`Taxable earned income: £${comp.taxableEarnedIncome}`);
-    console.log(`Earned income basic rate tax: £${comp.earnedIncomeBRTax}`);
-    console.log(`Earned income higher rate tax: £${comp.earnedIncomeHRTax}`);
-    console.log(`Earned income additional rate tax: £${comp.earnedIncomeARTax}`);
-    console.log(`Taxable savings income: £${comp.taxableSavingsIncome}`);
-    console.log(`Savings income basic rate tax: £${comp.savingsIncomeBRTax}`);
-    console.log(`Savings income higher rate tax: £${comp.savingsIncomeHRTax}`);
-    console.log(`Savings income additional rate tax: £${comp.savingsIncomeARTax}`);
-    console.log(`Taxable dividend income: £${comp.taxableDividendIncome}`);
-    console.log(`Dividend income basic rate tax: £${comp.dividendIncomeBRTax}`);
-    console.log(`Dividend income higher rate tax: £${comp.dividendIncomeHRTax}`);
-    console.log(`Dividend income additional rate tax: £${comp.dividendIncomeARTax}`);
-    console.log(`Class 4 NIC: £${comp.c4liability}`);
-    console.log(`Total tax & NI = £${comp.allTaxNI}`);
+    const controller = new Controller();
+    
+    
+    // const rf = new Profile(59999, 0, 0, 0, 218533, 25840, 572, 62500, 14620);
+    // const sf2019 = new Profile(30924, 0,0,0,0,64226,1105,1229);
+    // const comp = new Comp(sf2019, Rates[2021]);
+    // console.log(`Total taxable income: £${comp.totalIncome - comp.availablePA}`);
+    // console.log(`Taxable earned income: £${comp.taxableEarnedIncome}`);
+    // console.log(`Earned income basic rate tax: £${comp.earnedIncomeBRTax}`);
+    // console.log(`Earned income higher rate tax: £${comp.earnedIncomeHRTax}`);
+    // console.log(`Earned income additional rate tax: £${comp.earnedIncomeARTax}`);
+    // console.log(`Taxable savings income: £${comp.taxableSavingsIncome}`);
+    // console.log(`Savings income basic rate tax: £${comp.savingsIncomeBRTax}`);
+    // console.log(`Savings income higher rate tax: £${comp.savingsIncomeHRTax}`);
+    // console.log(`Savings income additional rate tax: £${comp.savingsIncomeARTax}`);
+    // console.log(`Taxable dividend income: £${comp.taxableDividendIncome}`);
+    // console.log(`Dividend income basic rate tax: £${comp.dividendIncomeBRTax}`);
+    // console.log(`Dividend income higher rate tax: £${comp.dividendIncomeHRTax}`);
+    // console.log(`Dividend income additional rate tax: £${comp.dividendIncomeARTax}`);
+    // console.log(`Class 4 NIC: £${comp.c4liability}`);
+    // console.log(`Total tax & NI = £${comp.allTaxNI}`);
 </script>
 </body>
 </html>

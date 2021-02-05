@@ -15,55 +15,51 @@
     <h2>Income details</h2>
     <form action="" id="income-form">
       <div>
-        <label for="taxYear" class="sr-text">Tax Year</label>
+        <label for="taxYear">Tax Year ended</label>
         <select name="taxYear" id="taxYear">
-          <option value="2021">Year ended 5th April 2021</option>
-          <option value="2020">Year ended 5th April 2020</option>
-          <option value="2019">Year ended 5th April 2019</option>
+          <option value="2021">5th April 2021</option>
+          <option value="2020">5th April 2020</option>
+          <option value="2019">5th April 2019</option>
         </select>
       </div>
       <div>
-        <label for="name" class="sr-text">Name</label>
-        <input type="text" id="name" name="name"">
-      </div>
-      <div>
-        <label for="employment" class="sr-text">Employment</label>
+        <label for="employment">Employment</label>
         <input type="text" id="employment" name="employment">
       </div>
       <div>
-        <label for="pensionState" class="sr-text">State Pension</label>
+        <label for="pensionState">State Pension</label>
         <input type="text" id="pensionState" name="pensionState"">
       </div>
       <div>
-        <label for="pensionPrivate" class="sr-text">Private Pension</label>
+        <label for="pensionPrivate">Private Pension</label>
         <input type="text" id="pensionPrivate" name="pensionPrivate"">
       </div>
       <div>
-        <label for="selfEmployment" class="sr-text">Self Employment</label>
+        <label for="selfEmployment">Self Employment</label>
         <input type="text" id="selfEmployment" name="selfEmployment"">
       </div>
       <div>
-        <label for="partnership" class="sr-text">Partnership</label>
+        <label for="partnership">Partnership</label>
         <input type="text" id="partnership" name="partnership">
       </div>
       <div>
-        <label for="rental" class="sr-text">Rental</label>
+        <label for="rental">Rental</label>
         <input type="text" id="rental" name="rental">
       </div>
       <div>
-        <label for="interest" class="sr-text">Interest</label>
+        <label for="interest">Interest</label>
         <input type="text" id="interest" name="interest">
       </div>
       <div>
-        <label for="dividends" class="sr-text">Dividends</label>
+        <label for="dividends">Dividends</label>
         <input type="text" id="dividends" name="dividends">
       </div>
       <div>
-        <label for="pensionContrib" class="sr-text">Pension Contributions</label>
+        <label for="pensionContrib">Pension Contributions</label>
         <input type="text" id="pensionContrib" name="pensionContrib">
       </div>
       <div>
-        <label for="c4" class="sr-text">Liable for Class 4?</label>
+        <label for="c4">Liable for Class 4?</label>
         <div>
           <label for="c4Yes">Yes</label>
           <input type="radio" id="c4Yes" name="c4" value="Yes" checked>
@@ -71,7 +67,7 @@
           <input type="radio" id="c4No" name="c4" value="No">
         </div>
       </div>
-      <div><input type="submit" name="submit" id="submit" value="Calculate Tax"></div>
+      <!-- <div><input type="submit" name="submit" id="submit" value="Calculate Tax"></div> -->
     </form>
   </section>
   <section id="computation">
@@ -84,9 +80,9 @@
       <tr><th>Rental</th><td id="comp-rental"></td></tr>
       <tr><th>Interest</th><td id="comp-interest"></td></tr>
       <tr><th>Dividends</th><td id="comp-dividend"></td></tr>
-      <tr><th>TOTAL INCOME</th><td id="comp-totalIncome"></td></tr>
+      <tr class="total-row"><th>TOTAL INCOME</th><td id="comp-totalIncome"></td></tr>
       <tr><th>Personal Allowance</th><td id="comp-personalAllowance"></td></tr>
-      <tr><th>TAXABLE INCOME</th><td id="comp-taxableIncome"></td></tr>
+      <tr class="total-row"><th>TAXABLE INCOME</th><td id="comp-taxableIncome"></td></tr>
     </table>
     <h3>Earned income tax</h3>
     <table>
@@ -108,9 +104,9 @@
     </table>
     <h3>&nbsp;</h3>
     <table id="totals">
-      <tr><th>TOTAL TAX</th><td id="comp-allTax"></td></tr>
+      <tr class="total-row"><th>TOTAL TAX</th><td id="comp-allTax"></td></tr>
       <tr><th>Class 4 National Insurance</th><td id="comp-c4liability"></td></tr>
-      <tr><th>TOTAL TAX & NATIONAL INSURANCE</th><td id="comp-allTaxNI"></td></tr>
+      <tr class="total-row"><th>TOTAL TAX & NATIONAL INSURANCE</th><td id="comp-allTaxNI"></td></tr>
     </table>
 
   </section>

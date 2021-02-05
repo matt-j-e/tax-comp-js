@@ -1,6 +1,16 @@
+:root {
+    --bg: #595959;
+    --fg: #2a95bf;
+    --grey: #595959;
+    --dkb: #295fa6;
+    --mbl: #2a95bf;
+    --red: #bf0413;
+}
+
 html {
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+    color: white;
 }
 
 #container {
@@ -9,16 +19,22 @@ html {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: top;
+    /* align-items: top; */
 }
 
 #collection {
     padding: 2rem;
-    background: palegoldenrod;
+    background: var(--bg);
 }
 
-#collection h2 {
+#collection h2, #computation h2 {
+    font-size: 1.1rem;
+    font-weight: bold;
     text-align: center;
+    padding: 1rem;
+    text-transform: uppercase;
+    background-color: white;
+    color: var(--dkb);
 }
 
 #income-form > div {
@@ -50,23 +66,25 @@ html {
 #computation {
     padding: 2rem;
     flex-basis: 40%;
-    background: palegoldenrod;
-}
-
-#computation h2 {
-    text-align: center;
+    background: var(--bg);
 }
 
 #computation h3 {
     margin-bottom: 0;
+    text-transform: uppercase;
+    font-size: 1rem;
 }
 
 table {
-    font-family: 'Roboto Mono', monospace;
     width: 100%;
     padding: 1rem;
-    background-color: hsl(55, 67%, 70%);
+    background-color: var(--fg);
     line-height: 1.4;
+    
+}
+
+.total-row {
+    color: var(--red);
 }
 
 th {
@@ -74,6 +92,7 @@ th {
 }
 
 td {
+    font-family: 'Roboto Mono', monospace;
     text-align: right;
 }
 
@@ -82,7 +101,7 @@ td {
 }
 
 .mid {
-    width: 15%;
+    width: 25%;
 }
 
 #totals {

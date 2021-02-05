@@ -1,20 +1,28 @@
 class Controller {
     constructor() {
-        document.querySelector("#submit").addEventListener("click", (e) => {
-            this.collectData(e);
+        // document.querySelector("#submit").addEventListener("click", (e) => {
+        //     this.collectData(e);
+        //     this.renderComp();
+        // });
+        this.collectData();
+        this.renderComp();
+
+
+        document.querySelector("select").addEventListener("blur", () => {
+            this.collectData();
             this.renderComp();
         });
 
         document.querySelectorAll("input").forEach((input) => {
-            input.addEventListener("blur", (e) => {
-                this.collectData(e);
+            input.addEventListener("blur", () => {
+                this.collectData();
                 this.renderComp();
             })
-        })
+        });
     }
 
-    collectData(event) {
-        event.preventDefault();
+    collectData() {
+        // event.preventDefault();
 
         this.taxYearInput = document.querySelector('select[name="taxYear"]');
         this.employmentInput = document.querySelector('input[name="employment"]');
@@ -62,7 +70,8 @@ class Controller {
         document.querySelector("#comp-dividend").innerText = this.comp.dividend;
         document.querySelector("#comp-totalIncome").innerText = this.comp.totalIncome;
         document.querySelector("#comp-personalAllowance").innerText = this.comp.availablePA;
-        document.querySelector("#comp-taxableIncome").innerText = this.comp.totalIncome - this.comp.availablePA;
+        // document.querySelector("#comp-taxableIncome").innerText = this.comp.totalIncome - this.comp.availablePA;
+        document.querySelector("#comp-taxableIncome").innerText = Math.max(this.comp.totalIncome - this.comp.availablePA, 0);
         //Earned Income
         document.querySelector("#comp-earnedIncomeBRB").innerText = this.comp.earnedIncomeBRB;
         document.querySelector("#comp-earned-br").innerText = `at ${this.comp.br * 100}%`;
